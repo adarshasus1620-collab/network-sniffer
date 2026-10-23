@@ -106,7 +106,7 @@ def show_packet(packet):
         total_bytes += size
         conversations[(src, dst)] += 1
         if dport != "-":
-            port_counts[dport] += 1
+            port_counts[min(sport, dport)] += 1
 
         if args.quiet:
             total = sum(protocol_counts.values())
