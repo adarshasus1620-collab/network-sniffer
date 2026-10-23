@@ -134,6 +134,8 @@ def parse_args():
                         help="save captured packets to a CSV file")
     parser.add_argument("-q", "--quiet", action="store_true",
                         help="hide packet lines, show a live counter instead")
+    parser.add_argument("-w", "--write", default=None,
+                        help="save raw packets to a .pcap file (opens in Wireshark)")
     return parser.parse_args()
 
 def main():
