@@ -3,7 +3,7 @@ import csv
 import time
 from collections import Counter, defaultdict
 from datetime import datetime
-from scapy.all import sniff, IP, TCP, UDP, Raw
+from scapy.all import sniff, IP, TCP, UDP, Raw, DNS, DNSQR
 
 protocol_counts = Counter()
 talkers = Counter()
