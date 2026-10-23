@@ -106,6 +106,14 @@ def print_summary():
     print("\nTop talkers:")
     for ip, count in talkers.most_common(5):
         print(f"  {ip}: {count} packets")
+        
+    print("\nTop destination ports:")
+    for port, count in port_counts.most_common(5):
+        print(f"  {port}: {count} packets")
+
+    print("\nTop conversations:")
+    for (src, dst), count in conversations.most_common(5):
+        print(f"  {src} -> {dst}: {count} packets")
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Simple network packet sniffer")
