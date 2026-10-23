@@ -38,6 +38,13 @@ def check_port_scan(src, dport):
         print(f"\n[!] ALERT: possible port scan from {src} "
               f"({len(hits)} ports in {SCAN_WINDOW}s)\n")
 
+def log_dns_query(packet):
+    if packet.haslayer(DNS) and packet.haslayer(DNSQR):
+        if packet[DNS].qr == 0:
+            name = packet[DNSQR].qname.decode(errors="ignore").rstrip(".")
+            src = packet[IP].src
+            print(f"[DNS] {src} asked for: {name}")
+            
 def show_packet(packet):
     global total_bytes
 
