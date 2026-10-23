@@ -24,6 +24,19 @@ def hex_preview(data, width=16, max_bytes=64):
         ascii_part = "".join(chr(b) if 32 <= b < 127 else "." for b in chunk)
         lines.append(f"    {hex_part:<{width * 3}} {ascii_part}")
     return "\n".join(lines)
+def check_port_scan(src, dport):
+    now = time.time()
+    hits = port_hits[src]
+    hits[dport] = now
+
+    for port in list(hits):
+        if now - hits[port] > SCAN_WINDOW:
+            del hits[port]
+
+    if len(hits) > SCAN_PORTS and src not in alerted:
+        alerted.add(src)
+        print(f"\n[!] ALERT: possible port scan from {src} "
+              f"({len(hits)} ports in {SCAN_WINDOW}s)\n")
 
 def show_packet(packet):
     global total_bytes
