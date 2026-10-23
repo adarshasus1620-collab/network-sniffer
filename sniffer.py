@@ -1,3 +1,20 @@
+"""
+Network Packet Sniffer
+======================
+Captures live network traffic with Scapy and prints a summary:
+protocols, top talkers, top ports, top conversations.
+
+Also detects simple port scans, logs DNS queries, and can save
+captures to CSV or to a .pcap file (opens in Wireshark).
+
+Run as Administrator (Windows) or with sudo (Linux/macOS).
+Only capture traffic on networks you own or have permission to monitor.
+
+Examples:
+    python sniffer.py -c 100
+    python sniffer.py -f "tcp port 443" -w capture.pcap
+    python sniffer.py -q -o capture.csv
+"""
 import argparse
 import csv
 import time
@@ -50,7 +67,7 @@ def log_dns_query(packet):
 
 def show_packet(packet):
     global total_bytes
-    
+
     if pcap_writer:
         pcap_writer.write(packet)
     if ARP in packet:
