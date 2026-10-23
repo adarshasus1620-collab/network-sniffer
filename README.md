@@ -50,6 +50,8 @@ python sniffer.py -h                       # show all options
 | `-o` | CSV output file |
 | `-w` | pcap output file |
 
+
+
 ## Legal and ethical notice
 
 Only capture traffic on networks and devices you own or have explicit permission to monitor. Unauthorized packet capture may be illegal.
