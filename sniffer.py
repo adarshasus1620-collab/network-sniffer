@@ -1,11 +1,14 @@
 import argparse
+import csv
 from collections import Counter
+from datetime import datetime
 from scapy.all import sniff, IP, TCP, UDP, Raw
 
 protocol_counts = Counter()
 talkers = Counter()
 total_bytes = 0
 args = None
+csv_writer = None
 
 def hex_preview(data, width=16, max_bytes=64):
     data = data[:max_bytes]
@@ -43,6 +46,9 @@ def show_packet(packet):
 
         print(f"[{proto}] {src}:{sport} -> {dst}:{dport} ({size} bytes)")
 
+        if csv_writer:
+            csv_writer.writerow([datetime.now().isoformat(), proto, src, dst, sport, dport, size])
+
         if args.payload and Raw in packet:
             print(hex_preview(bytes(packet[Raw].load)))
 
@@ -68,6 +74,8 @@ def parse_args():
                         help="network interface to sniff on")
     parser.add_argument("-p", "--payload", action="store_true",
                         help="show hex + ASCII preview of packet payloads")
+    parser.add_argument("-o", "--output", default=None,
+                        help="save captured packets to a CSV file")
     return parser.parse_args()
 
 def main():
