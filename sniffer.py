@@ -132,7 +132,7 @@ def print_summary():
     for ip, count in talkers.most_common(5):
         print(f"  {ip}: {count} packets")
 
-    print("\nTop destination ports:")
+    print("\nTop service ports:")
     for port, count in port_counts.most_common(5):
         print(f"  {port}: {count} packets")
 
