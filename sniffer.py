@@ -79,15 +79,25 @@ def parse_args():
     return parser.parse_args()
 
 def main():
-    global args
+    global args, csv_writer
     args = parse_args()
     print(f"[*] Capturing... count={args.count or 'unlimited'}, filter={args.filter or 'none'}")
+
+    csv_file = None
+    if args.output:
+        csv_file = open(args.output, "w", newline="")
+        csv_writer = csv.writer(csv_file)
+        csv_writer.writerow(["timestamp", "protocol", "src", "dst", "sport", "dport", "size"])
 
     try:
         sniff(prn=show_packet, count=args.count, filter=args.filter,
               iface=args.interface, store=False)
     except KeyboardInterrupt:
         print("\n[*] Stopped by user.")
+    finally:
+        if csv_file:
+            csv_file.close()
+            print(f"[*] Saved to {args.output}")
 
     print_summary()
 
