@@ -50,6 +50,8 @@ def show_packet(packet):
             proto = "TCP"
             sport = packet[TCP].sport
             dport = packet[TCP].dport
+            if packet[TCP].flags == "S":
+                check_port_scan(src, dport)
         elif UDP in packet:
             proto = "UDP"
             sport = packet[UDP].sport
