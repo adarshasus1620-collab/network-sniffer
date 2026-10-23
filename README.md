@@ -8,7 +8,7 @@ A command-line network packet sniffer built in Python with Scapy. I built it ste
 - Supports TCP, UDP, ICMP and ARP
 - DNS query logging: shows which domain names a device asks for
 - Port scan detection: alerts when one IP hits many ports quickly
-- Summary report: protocol counts, top talkers, top ports, top conversations
+- Summary report: protocol counts, top talkers, top service ports, top conversations
 - Hex and ASCII payload preview
 - Quiet mode with a live packet counter
 - Save captures to CSV or to .pcap (opens in Wireshark)
