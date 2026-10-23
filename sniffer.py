@@ -44,7 +44,7 @@ def log_dns_query(packet):
             name = packet[DNSQR].qname.decode(errors="ignore").rstrip(".")
             src = packet[IP].src
             print(f"[DNS] {src} asked for: {name}")
-            
+
 def show_packet(packet):
     global total_bytes
 
@@ -63,6 +63,8 @@ def show_packet(packet):
             proto = "UDP"
             sport = packet[UDP].sport
             dport = packet[UDP].dport
+            if dport == 53:
+                log_dns_query(packet)
         else:
             proto = "OTHER"
             sport = dport = "-"
