@@ -14,6 +14,8 @@ port_hits = defaultdict(dict)
 alerted = set()
 SCAN_PORTS = 15
 SCAN_WINDOW = 10
+port_counts = Counter()
+conversations = Counter()
 
 def hex_preview(data, width=16, max_bytes=64):
     data = data[:max_bytes]
