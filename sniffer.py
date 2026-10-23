@@ -139,7 +139,7 @@ def parse_args():
     return parser.parse_args()
 
 def main():
-    global args, csv_writer
+    global args, csv_writer, pcap_writer
     args = parse_args()
     print(f"[*] Capturing... count={args.count or 'unlimited'}, filter={args.filter or 'none'}")
 
@@ -148,6 +148,9 @@ def main():
         csv_file = open(args.output, "w", newline="")
         csv_writer = csv.writer(csv_file)
         csv_writer.writerow(["timestamp", "protocol", "src", "dst", "sport", "dport", "size"])
+
+    if args.write:
+        pcap_writer = PcapWriter(args.write, append=False, sync=True)
 
     try:
         sniff(prn=show_packet, count=args.count, filter=args.filter,
@@ -158,6 +161,9 @@ def main():
         if csv_file:
             csv_file.close()
             print(f"[*] Saved to {args.output}")
+        if pcap_writer:
+            pcap_writer.close()
+            print(f"[*] Saved to {args.write}")
 
     print_summary()
 
