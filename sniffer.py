@@ -47,6 +47,12 @@ def log_dns_query(packet):
 
 def show_packet(packet):
     global total_bytes
+    if ARP in packet:
+        op = "who-has" if packet[ARP].op == 1 else "is-at"
+        protocol_counts["ARP"] += 1
+        total_bytes += len(packet)
+        print(f"[ARP] {packet[ARP].psrc} {op} {packet[ARP].pdst}")
+        return
 
     if IP in packet:
         src = packet[IP].src
