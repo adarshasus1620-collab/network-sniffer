@@ -1,10 +1,21 @@
 import argparse
 from collections import Counter
-from scapy.all import sniff, IP, TCP, UDP
+from scapy.all import sniff, IP, TCP, UDP, Raw
 
 protocol_counts = Counter()
 talkers = Counter()
 total_bytes = 0
+args = None
+
+def hex_preview(data, width=16, max_bytes=64):
+    data = data[:max_bytes]
+    lines = []
+    for i in range(0, len(data), width):
+        chunk = data[i:i + width]
+        hex_part = " ".join(f"{b:02x}" for b in chunk)
+        ascii_part = "".join(chr(b) if 32 <= b < 127 else "." for b in chunk)
+        lines.append(f"    {hex_part:<{width * 3}} {ascii_part}")
+    return "\n".join(lines)
 
 def show_packet(packet):
     global total_bytes
@@ -32,6 +43,9 @@ def show_packet(packet):
 
         print(f"[{proto}] {src}:{sport} -> {dst}:{dport} ({size} bytes)")
 
+        if args.payload and Raw in packet:
+            print(hex_preview(bytes(packet[Raw].load)))
+
 def print_summary():
     print("\n--- SUMMARY ---")
     print(f"Total bytes: {total_bytes}")
@@ -52,9 +66,12 @@ def parse_args():
                         help='BPF filter, e.g. "tcp port 443" or "udp"')
     parser.add_argument("-i", "--interface", default=None,
                         help="network interface to sniff on")
+    parser.add_argument("-p", "--payload", action="store_true",
+                        help="show hex + ASCII preview of packet payloads")
     return parser.parse_args()
 
 def main():
+    global args
     args = parse_args()
     print(f"[*] Capturing... count={args.count or 'unlimited'}, filter={args.filter or 'none'}")
 
