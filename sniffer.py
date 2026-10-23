@@ -87,7 +87,11 @@ def show_packet(packet):
         if dport != "-":
             port_counts[dport] += 1
 
-        print(f"[{proto}] {src}:{sport} -> {dst}:{dport} ({size} bytes)")
+        if args.quiet:
+            total = sum(protocol_counts.values())
+            print(f"\r[*] Packets: {total} | Bytes: {total_bytes}", end="", flush=True)
+        else:
+            print(f"[{proto}] {src}:{sport} -> {dst}:{dport} ({size} bytes)")
 
         if csv_writer:
             csv_writer.writerow([datetime.now().isoformat(), proto, src, dst, sport, dport, size])
