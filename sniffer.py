@@ -106,7 +106,7 @@ def print_summary():
     print("\nTop talkers:")
     for ip, count in talkers.most_common(5):
         print(f"  {ip}: {count} packets")
-        
+
     print("\nTop destination ports:")
     for port, count in port_counts.most_common(5):
         print(f"  {port}: {count} packets")
@@ -127,6 +127,8 @@ def parse_args():
                         help="show hex + ASCII preview of packet payloads")
     parser.add_argument("-o", "--output", default=None,
                         help="save captured packets to a CSV file")
+    parser.add_argument("-q", "--quiet", action="store_true",
+                        help="hide packet lines, show a live counter instead")
     return parser.parse_args()
 
 def main():
