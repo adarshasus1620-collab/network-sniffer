@@ -50,6 +50,9 @@ def log_dns_query(packet):
 
 def show_packet(packet):
     global total_bytes
+    
+    if pcap_writer:
+        pcap_writer.write(packet)
     if ARP in packet:
         op = "who-has" if packet[ARP].op == 1 else "is-at"
         protocol_counts["ARP"] += 1
