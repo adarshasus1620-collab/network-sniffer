@@ -83,6 +83,9 @@ def show_packet(packet):
         protocol_counts[proto] += 1
         talkers[src] += 1
         total_bytes += size
+        conversations[(src, dst)] += 1
+        if dport != "-":
+            port_counts[dport] += 1
 
         print(f"[{proto}] {src}:{sport} -> {dst}:{dport} ({size} bytes)")
 
