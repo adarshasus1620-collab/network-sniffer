@@ -2,7 +2,7 @@
 Network Packet Sniffer
 ======================
 Captures live network traffic with Scapy and prints a summary:
-protocols, top talkers, top ports, top conversations.
+protocols, top talkers, top service ports, top conversations.
 
 Also detects simple port scans, logs DNS queries, and can save
 captures to CSV or to a .pcap file (opens in Wireshark).
