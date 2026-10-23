@@ -1,6 +1,7 @@
 import argparse
 import csv
-from collections import Counter
+import time
+from collections import Counter, defaultdict
 from datetime import datetime
 from scapy.all import sniff, IP, TCP, UDP, Raw
 
