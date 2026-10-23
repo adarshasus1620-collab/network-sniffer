@@ -65,6 +65,9 @@ def show_packet(packet):
             dport = packet[UDP].dport
             if dport == 53:
                 log_dns_query(packet)
+        elif ICMP in packet:
+            proto = "ICMP"
+            sport = dport = "-"
         else:
             proto = "OTHER"
             sport = dport = "-"
